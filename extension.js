@@ -1,11 +1,15 @@
 function hookIntoPrefs() {
-        $("#new_prefs_dialog .modal-nav").append($('<a id="prefs_slackpack_tab" data-pane-id="prefs_slackpack" data-which="slackpack" class="">SlackPack</a>'));
-        $("#new_prefs_dialog .modal-body").append($('<div id="prefs_slackpack" class="dialog_tab_pane">People to block (one per line):<textarea onchange="updateIgnoreList(this.value)"></textarea></div>'));
-        $('#prefs_slackpack_tab').click(function() {
+        var nav = "#new_prefs_dialog .modal-nav";
+        var prefbody = "#new_prefs_dialog .modal-body";
+        var slackpacktab = "#prefs_slackpack_tab";
+        $(nav).append($(HTML.preftab));
+        $(prefbody).append($(HTML.prefbody));
+
+        $(slackpacktab).click(function() {
                 $('.dialog_tab_pane').removeClass('active');
                 $('#prefs_slackpack').addClass('active');
-                $('#new_prefs_dialog .modal-nav a').removeClass('active');
-                $('#prefs_slackpack_tab').addClass('active');
+                $(nav + ' a').removeClass('active');
+                $(slackpacktab).addClass('active');
         });
 }
 
