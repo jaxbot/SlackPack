@@ -10,6 +10,7 @@ function hookIntoPrefs() {
                 $('#prefs_slackpack').addClass('active');
                 $(nav + ' a').removeClass('active');
                 $(slackpacktab).addClass('active');
+                $("#txt_ignore_list").val(localStorage["sp_ignore"]);
         });
 }
 
