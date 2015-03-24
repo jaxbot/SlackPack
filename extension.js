@@ -1,3 +1,4 @@
+// Add the SlackPack option to the preferences menu
 function hookIntoPrefs() {
         var nav = "#new_prefs_dialog .modal-nav";
         var prefbody = "#new_prefs_dialog .modal-body";
@@ -14,36 +15,32 @@ function hookIntoPrefs() {
         });
 }
 
-function updateIgnoreList(people) {
-        localStorage["sp_ignore"] = people;
-}
-
+// Add an event listener to #user_menu to add preferences hook
 $("#user_menu").click(function() {
         $("#member_prefs_item").click(function() {
                 setTimeout(hookIntoPrefs, 100);
         });
 });
 
-var observeDOM = (function(){
-    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
-        eventListenerSupported = window.addEventListener;
+// Store ignore list
+function updateIgnoreList(people) {
+        localStorage["sp_ignore"] = people;
+}
 
-    return function(obj, callback){
-        if( MutationObserver ){
-            // define a new observer
-            var obs = new MutationObserver(function(mutations, observer){
-                if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
-                    callback();
-            });
-            // have the observer observe foo for changes in children
-            obs.observe( obj, { childList:true, subtree:true });
-        }
-        else if( eventListenerSupported ){
-            obj.addEventListener('DOMNodeInserted', callback, false);
-            obj.addEventListener('DOMNodeRemoved', callback, false);
-        }
+// Helpers
+function observeDOM(obj, callback) {
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    if (MutationObserver) {
+        var obs = new MutationObserver(function(mutations, observer){
+            if (mutations[0].addedNodes.length || mutations[0].removedNodes.length)
+                callback();
+        });
+        obs.observe(obj, { childList:true, subtree:true });
+    } else {
+        obj.addEventListener('DOMNodeInserted', callback, false);
+        obj.addEventListener('DOMNodeRemoved', callback, false);
     }
-})();
+}
 
 observeDOM(document.getElementById("msgs_div"), function() {
         console.log("trigger");
