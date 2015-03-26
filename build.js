@@ -6,6 +6,10 @@ build += fs.readFileSync("extension.js").toString();
 
 fs.writeFileSync("build/build.js", build);
 
+var chromeExtensionTemplate = fs.readFileSync("chrome/ext/src/inject/template.js");
+chromeExtensionTemplate = chromeExtensionTemplate.toString().replace("/*{{CODE}}*/", build);
+fs.writeFileSync("chrome/ext/src/inject/inject.js", chromeExtensionTemplate);
+
 function dirToObject(dir) {
     var dirFiles = fs.readdirSync(dir);
     var dirObj = {};
